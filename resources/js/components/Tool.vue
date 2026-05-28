@@ -14,10 +14,10 @@
                 :title="__('Clear filter')">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </span>
-        <input type="text"
+        <Input type="text"
                :placeholder="__('Filter') + ': By key or translation'"
-               class="nte-input"
-               v-model="filterString">
+               class="w-full"
+               v-model="filterString"/>
       </div>
     </div>
 
@@ -52,7 +52,7 @@
               </td>
               <td class="px-2 py-2 border-t border-gray-100 dark:border-gray-700 whitespace-nowrap cursor-pointer dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900"
                   v-for="lang in languages">
-              <textarea class="nte-input m-1 h-auto" v-model="trans[lang]"
+              <textarea class="nte-textarea" v-model="trans[lang]"
                         @input="translationChanged(group, key, lang, $event)"/>
               </td>
             </tr>
@@ -60,22 +60,21 @@
           </table>
 
           <div class="flex flex-col md:flex-row justify-center space-y-2 md:space-y-0 space-x-3 mb-2">
-            <ActionButton
+            <Button
                 dusk="create-button"
                 type="button"
+                variant="ghost"
+                :label="__('Add new row')"
                 @click="showNewModal = true"
-            >
-              {{ __('Add new row') }}
-            </ActionButton>
+            />
 
-            <ActionButton
+            <Button
                 dusk="save-group-button"
                 type="button"
                 :loading="! loaded"
+                :label="saveGroupLabel"
                 @click="save(currentGroup)"
-            >{{ __('Save') }}
-              "{{ currentGroup }}"
-            </ActionButton>
+            />
           </div>
         </div>
       </template>
@@ -85,21 +84,20 @@
         class="flex flex-col md:flex-row md:items-center justify-center md:justify-end space-y-2 md:space-y-0 space-x-3"
         v-if="showTable"
     >
-      <ActionButton
-          variant="link"
+      <Button
+          variant="ghost"
           type="button"
-          @click="reloadPage">
-        {{ __('Cancel') }}
-      </ActionButton>
+          :label="__('Cancel')"
+          @click="reloadPage"
+      />
 
-      <ActionButton
+      <Button
           dusk="create-all-button"
           type="button"
-          @click="save"
           :loading="!loaded"
-      >
-        {{ __('Save all') }}
-      </ActionButton>
+          :label="__('Save all')"
+          @click="save"
+      />
     </div>
 
     <add-row-modal
@@ -121,10 +119,10 @@
 
 <script>
 import AddRowModal from "./AddRowModal.vue";
-import ActionButton from "./ActionButton.vue";
+import { Button, Input } from 'laravel-nova-ui';
 
 export default {
-  components: {AddRowModal, ActionButton},
+  components: {AddRowModal, Button, Input},
   props: ['initialTranslations', 'languages', 'group'],
   data: () => {
     return {
@@ -145,6 +143,9 @@ export default {
   computed: {
     existingKeys() {
       return Object.keys(this.translations[this.currentGroup]);
+    },
+    saveGroupLabel() {
+      return `${this.__('Save')} "${this.currentGroup}"`;
     },
     showTable() {
       return this.translations && Object.keys(this.translations).length > 0;

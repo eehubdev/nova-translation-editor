@@ -1,85 +1,29 @@
 /*
- * Self-contained styling for the translation editor.
- * Nova 5 removed the legacy global components/classes (CancelButton,
- * LoadingButton, .btn, .form-input-bordered, text-80/bg-30 …) this tool
- * relied on, so we ship our own button + input styles instead of depending
- * on Nova's CSS. Loaded via Nova::style() in NovaTranslationEditor::boot().
+ * Translation editor — minimal styling.
+ * Buttons and the key/filter inputs use laravel-nova-ui's <Button>/<Input>
+ * (theme-aware). Only the per-language translation <textarea> needs custom
+ * CSS, since laravel-nova-ui ships no textarea component. Loaded via
+ * Nova::style() in NovaTranslationEditor::boot().
  */
 
-.nte-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 2.25rem;
-    padding: 0 0.75rem;
-    border-radius: 0.375rem;
-    font-size: 0.875rem;
-    font-weight: 700;
-    line-height: 1;
-    cursor: pointer;
-    border: 1px solid transparent;
-    transition: background-color 0.15s ease, color 0.15s ease;
-}
-
-.nte-btn:focus {
-    outline: 2px solid rgba(59, 130, 246, 0.5);
-    outline-offset: 1px;
-}
-
-.nte-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.nte-btn-primary {
-    background-color: rgb(14 165 233);
-    color: #fff;
-}
-
-.nte-btn-primary:hover:not(:disabled) {
-    background-color: rgb(56 189 248);
-}
-
-.nte-btn-link {
-    background-color: transparent;
-    color: rgb(100 116 139);
-}
-
-.nte-btn-link:hover:not(:disabled) {
-    color: rgb(51 65 85);
-}
-
-.nte-spinner {
-    width: 0.75rem;
-    height: 0.75rem;
-    margin-right: 0.5rem;
-    border: 2px solid currentColor;
-    border-right-color: transparent;
-    border-radius: 9999px;
-    animation: nte-spin 0.6s linear infinite;
-}
-
-@keyframes nte-spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.nte-input {
+.nte-textarea {
     width: 100%;
+    min-width: 220px;
     border-radius: 0.375rem;
     border: 1px solid rgb(203 213 225);
     background-color: #fff;
     color: rgb(15 23 42);
     padding: 0.5rem 0.75rem;
+    margin: 0.25rem;
+    height: auto;
 }
 
-.nte-input:focus {
+.nte-textarea:focus {
     outline: 2px solid rgba(59, 130, 246, 0.5);
     outline-offset: 1px;
 }
 
-.dark .nte-input {
+.dark .nte-textarea {
     background-color: rgb(15 23 42);
     color: rgb(241 245 249);
     border-color: rgb(51 65 85);

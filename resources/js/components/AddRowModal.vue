@@ -8,30 +8,29 @@
 
         <div class="p-6">
           <label class="block text-sm font-bold text-gray-600 dark:text-gray-300 mb-2 leading-tight">{{ __('Key of new translation') }}</label>
-          <input
-              type="text"
+          <Input
               ref="keyNameInput"
-              required
               v-model="keyName"
-              class="nte-input"
-          >
+              :placeholder="__('Key of new translation')"
+              class="w-full"
+          />
         </div>
       </div>
       <div class="bg-gray-100 dark:bg-gray-900 px-6 py-3 flex">
         <div class="flex items-center ml-auto space-x-3">
-          <ActionButton
-              variant="link"
-              tabindex="0"
-              dusk="cancel-create-button"
+          <Button
+              variant="ghost"
               type="button"
+              dusk="cancel-create-button"
+              :label="__('Cancel')"
               @click="$emit('create-cancelled')"
-          >
-            {{ __('Cancel') }}
-          </ActionButton>
+          />
 
-          <ActionButton type="submit">
-            {{ __('Create') }}
-          </ActionButton>
+          <Button
+              type="submit"
+              dusk="create-button"
+              :label="__('Create')"
+          />
         </div>
       </div>
     </form>
@@ -39,11 +38,11 @@
 </template>
 
 <script>
-import ActionButton from './ActionButton.vue'
+import { Button, Input } from 'laravel-nova-ui'
 
 export default {
   name: "AddRowModal",
-  components: { ActionButton },
+  components: { Button, Input },
   props: {
     group: {},
     existingKeys: {}

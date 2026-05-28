@@ -12,8 +12,12 @@ class NovaExtension {
     }
 
     webpackConfig(webpackConfig) {
+        // Externalize the libraries Nova already exposes as runtime globals so
+        // the tool uses Nova's shared copies instead of re-bundling them.
+        // Nova's app.js maps laravel-nova-ui -> global LaravelNovaUi.
         webpackConfig.externals = {
             vue: 'Vue',
+            'laravel-nova-ui': 'LaravelNovaUi',
         }
 
         webpackConfig.resolve.alias = {

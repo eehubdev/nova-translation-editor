@@ -19,6 +19,7 @@
         "webpack": "^5.71.0"
     },
     "dependencies": {
+        "laravel-nova-ui": "^0.4.12",
         "vue": "^3.2.33"
     }
 }
