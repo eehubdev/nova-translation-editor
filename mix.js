@@ -28,7 +28,10 @@ class NovaExtension {
             ),
         }
 
+        webpackConfig.target = 'web'
+
         webpackConfig.output = {
+            ...webpackConfig.output,
             uniqueName: this.name,
         }
     }

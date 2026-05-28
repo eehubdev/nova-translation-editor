@@ -8,11 +8,11 @@
 
         <div class="p-6">
           <label class="block text-sm font-bold text-gray-600 dark:text-gray-300 mb-2 leading-tight">{{ __('Key of new translation') }}</label>
-          <Input
+          <input
               ref="keyNameInput"
               v-model="keyName"
               :placeholder="__('Key of new translation')"
-              class="w-full"
+              class="w-full form-control form-input form-control-bordered"
           />
         </div>
       </div>
@@ -38,11 +38,11 @@
 </template>
 
 <script>
-import { Button, Input } from 'laravel-nova-ui'
+import { Button } from 'laravel-nova-ui'
 
 export default {
   name: "AddRowModal",
-  components: { Button, Input },
+  components: { Button },
   props: {
     group: {},
     existingKeys: {}

@@ -1,9 +1,10 @@
 /*
  * Translation editor — minimal styling.
- * Buttons and the key/filter inputs use laravel-nova-ui's <Button>/<Input>
- * (theme-aware). Only the per-language translation <textarea> needs custom
- * CSS, since laravel-nova-ui ships no textarea component. Loaded via
- * Nova::style() in NovaTranslationEditor::boot().
+ * Buttons use laravel-nova-ui's <Button> (theme-aware). The key/filter inputs
+ * are native <input> elements with Nova's form-control/form-input classes,
+ * since laravel-nova-ui ships no Input component. Only the per-language
+ * translation <textarea> needs custom CSS, since laravel-nova-ui ships no
+ * textarea component. Loaded via Nova::style() in NovaTranslationEditor::boot().
  */
 
 .nte-textarea {
