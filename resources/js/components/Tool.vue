@@ -2,21 +2,21 @@
   <div>
     <Heading class="mb-6">{{ title }}</Heading>
 
-    <div class="flex border-b-2 border-50">
+    <div class="flex border-b-2 border-gray-200 dark:border-gray-700">
       <div class="w-1/5 px-8 py-2">
-        <label class="inline-block text-80 pt-2 leading-tight">{{ __('Filter') }}</label>
+        <label class="inline-block text-gray-600 dark:text-gray-300 pt-2 leading-tight">{{ __('Filter') }}</label>
       </div>
       <div class="w-4/5 py-2 px-8 relative">
             <span
                 v-if="filterString"
                 @click="filterString = ''"
-                class="cursor-pointer text-primary absolute clear-filter-icon"
+                class="cursor-pointer text-primary-500 absolute clear-filter-icon"
                 :title="__('Clear filter')">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </span>
         <input type="text"
                :placeholder="__('Filter') + ': By key or translation'"
-               class="w-full form-control form-input form-input-bordered"
+               class="nte-input"
                v-model="filterString">
       </div>
     </div>
@@ -25,8 +25,8 @@
       <nav
           class="flex flex-col md:flex-row md:items-center md:justify-center pt-2 border-b border-gray-200 dark:border-gray-700 overflow-x-auto">
         <a v-for="(translation, group) in filterdTranslations" :key="group"
-           :class="currentGroup === group ? 'text-primary-500 border-primary-500' : ' text-grey border-transparent'"
-           class="no-underline border-b-2 uppercase tracking-wide font-bold text-s py-3 mx-2 px-3 inline-block"
+           :class="currentGroup === group ? 'text-primary-500 border-primary-500' : ' text-gray-400 border-transparent'"
+           class="no-underline border-b-2 uppercase tracking-wide font-bold text-sm py-3 mx-2 px-3 inline-block cursor-pointer"
            @click="currentGroup = group">
           {{ group }}&nbsp;({{ Object.keys(translation).length }})
         </a>
@@ -38,8 +38,8 @@
           <table class="table w-full">
             <thead class="bg-gray-50 dark:bg-gray-800">
             <tr>
-              <th class="text-left px-2 whitespace-nowrap uppercase text-gray-500 text-xxs tracking-wide py-2">Key</th>
-              <th class="text-left px-2 whitespace-nowrap uppercase text-gray-500 text-xxs tracking-wide py-2"
+              <th class="text-left px-2 whitespace-nowrap uppercase text-gray-500 text-xs tracking-wide py-2">Key</th>
+              <th class="text-left px-2 whitespace-nowrap uppercase text-gray-500 text-xs tracking-wide py-2"
                   v-for="lang in languages">Translation&nbsp;{{ lang }}
               </th>
             </tr>
@@ -48,11 +48,11 @@
             <tr v-for="(trans, key) in translation">
               <td class="px-2 py-2 border-t border-gray-100 dark:border-gray-700 whitespace-nowrap cursor-pointer dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900">
                 {{ key }}
-                <p class="text-xs	mt-2 text-dark-grey">{{ group }}.{{ key }}</p>
+                <p class="text-xs mt-2 text-gray-600 dark:text-gray-400">{{ group }}.{{ key }}</p>
               </td>
               <td class="px-2 py-2 border-t border-gray-100 dark:border-gray-700 whitespace-nowrap cursor-pointer dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900"
                   v-for="lang in languages">
-              <textarea class="w-full form-input form-input-bordered py-3 m-1 h-auto" v-model="trans[lang]"
+              <textarea class="nte-input m-1 h-auto" v-model="trans[lang]"
                         @input="translationChanged(group, key, lang, $event)"/>
               </td>
             </tr>
@@ -60,23 +60,22 @@
           </table>
 
           <div class="flex flex-col md:flex-row justify-center space-y-2 md:space-y-0 space-x-3 mb-2">
-            <LoadingButton
+            <ActionButton
                 dusk="create-button"
                 type="button"
                 @click="showNewModal = true"
-                :loading="false"
             >
               {{ __('Add new row') }}
-            </LoadingButton>
+            </ActionButton>
 
-            <LoadingButton
-                dusk="create-button"
+            <ActionButton
+                dusk="save-group-button"
                 type="button"
                 :loading="! loaded"
                 @click="save(currentGroup)"
             >{{ __('Save') }}
               "{{ currentGroup }}"
-            </LoadingButton>
+            </ActionButton>
           </div>
         </div>
       </template>
@@ -86,20 +85,21 @@
         class="flex flex-col md:flex-row md:items-center justify-center md:justify-end space-y-2 md:space-y-0 space-x-3"
         v-if="showTable"
     >
-      <CancelButton
-          class="appearance-none bg-transparent font-bold text-gray-400 hover:text-gray-300 active:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 dark:active:text-gray-600 dark:hover:bg-gray-800 cursor-pointer rounded text-sm font-bold focus:outline-none focus:ring inline-flex items-center justify-center h-9 px-3 appearance-none bg-transparent font-bold text-gray-400 hover:text-gray-300 active:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 dark:active:text-gray-600 dark:hover:bg-gray-800"
-          @click="$router.go()">
+      <ActionButton
+          variant="link"
+          type="button"
+          @click="reloadPage">
         {{ __('Cancel') }}
-      </CancelButton>
+      </ActionButton>
 
-      <LoadingButton
+      <ActionButton
           dusk="create-all-button"
           type="button"
           @click="save"
           :loading="!loaded"
       >
         {{ __('Save all') }}
-      </LoadingButton>
+      </ActionButton>
     </div>
 
     <add-row-modal
@@ -120,10 +120,11 @@
 </template>
 
 <script>
-import AddRowModal from "./AddRowModal";
+import AddRowModal from "./AddRowModal.vue";
+import ActionButton from "./ActionButton.vue";
 
 export default {
-  components: {AddRowModal},
+  components: {AddRowModal, ActionButton},
   props: ['initialTranslations', 'languages', 'group'],
   data: () => {
     return {
@@ -175,6 +176,10 @@ export default {
     },
   },
   methods: {
+    reloadPage() {
+      window.location.reload();
+    },
+
     loadData() {
       this.loaded = true;
 

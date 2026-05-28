@@ -1,30 +1,37 @@
 <template>
   <Modal :show="true" @close="$emit('close')">
-    <form autocomplete="off" class="bg-white rounded-lg shadow-lg overflow-hidden" @submit.prevent="handleSubmit">
+    <form autocomplete="off" class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden" @submit.prevent="handleSubmit">
       <div>
-        <heading :level="2" class="border-b border-40 py-4 px-2">{{ __('Create') }} "{{ group }}"</heading>
+        <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700 py-4 px-6">
+          {{ __('Create') }} "{{ group }}"
+        </h2>
 
-        <div class="p-3">
-          <label class="inline-block text-80 mb-2 leading-tight nova-form-label">{{ __('Key of new translation') }}</label><br>
-          <input type="text" ref="keyNameInput" required class="w-full form-control form-input form-input-bordered" v-model="keyName">
+        <div class="p-6">
+          <label class="block text-sm font-bold text-gray-600 dark:text-gray-300 mb-2 leading-tight">{{ __('Key of new translation') }}</label>
+          <input
+              type="text"
+              ref="keyNameInput"
+              required
+              v-model="keyName"
+              class="nte-input"
+          >
         </div>
       </div>
-      <div class="bg-30 px-6 py-3 flex">
-        <div class="flex items-center ml-auto">
-          <CancelButton
+      <div class="bg-gray-100 dark:bg-gray-900 px-6 py-3 flex">
+        <div class="flex items-center ml-auto space-x-3">
+          <ActionButton
+              variant="link"
               tabindex="0"
               dusk="cancel-create-button"
               type="button"
               @click="$emit('create-cancelled')"
-          />
-
-          <LoadingButton
-              :loading="false"
-              type="submit"
-              class="btn btn-default btn-primary"
           >
-            <span>{{ __('Create') }}</span>
-          </LoadingButton>
+            {{ __('Cancel') }}
+          </ActionButton>
+
+          <ActionButton type="submit">
+            {{ __('Create') }}
+          </ActionButton>
         </div>
       </div>
     </form>
@@ -32,8 +39,11 @@
 </template>
 
 <script>
+import ActionButton from './ActionButton.vue'
+
 export default {
   name: "AddRowModal",
+  components: { ActionButton },
   props: {
     group: {},
     existingKeys: {}
@@ -54,9 +64,6 @@ export default {
       }
     },
   },
-  /**
-   * Mount the component.
-   */
   mounted() {
     //this.$refs.keyNameInput.focus()
   },

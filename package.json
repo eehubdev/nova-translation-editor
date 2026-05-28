@@ -15,7 +15,8 @@
         "laravel-mix": "^6.0.43",
         "postcss": "^8.4.13",
         "tailwindcss": "^2.2.19",
-        "vue-loader": "^16.8.3"
+        "vue-loader": "^16.8.3",
+        "webpack": "^5.71.0"
     },
     "dependencies": {
         "vue": "^3.2.33"
